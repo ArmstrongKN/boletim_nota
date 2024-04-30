@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { getFirestore, collection, onSnapshot, deleteDoc, doc } from '../Firebase';
+import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import Firebase from '../Firebase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Home({ navigation }) {
   const [boletim, setBoletim] = useState([]);
-  const firestore = getFirestore();
+  const firestore = getFirestore(Firebase);
 
   async function deleteBoletim(id) {
     try {
@@ -18,15 +18,15 @@ export default function Home({ navigation }) {
     }
   }
 
-//   useEffect(() => {
-//     const unsubscribeBoletim = onSnapshot(collection(firestore, 'boletim'), (querySnapshot) => {
-//       const lista = [];
-//       querySnapshot.forEach((doc) => { lista.push({ ...doc.data(), id: doc.id }); });
-//       setBoletim(lista);
-//     });
+  useEffect(() => {
+    const unsubscribeBoletim = onSnapshot(collection(firestore, 'boletim'), (querySnapshot) => {
+      const lista = [];
+      querySnapshot.forEach((doc) => { lista.push({ ...doc.data(), id: doc.id }); });
+      setBoletim(lista);
+    });
 
-//     return () => { unsubscribeBoletim(); };
-//   }, [firestore]);
+    return () => { unsubscribeBoletim(); };
+  }, [firestore]);
 
   return (
     <View style={estilo.container}>
@@ -65,11 +65,11 @@ const estilo = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titulo: {
     marginTop: 50,
-    fontSize: 30
+    fontSize: 30,
   },
   itens: {
     marginHorizontal: 10,
@@ -91,7 +91,7 @@ const estilo = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     backgroundColor: '#E0E0E0',
-    borderRadius: 10
+    borderRadius: 10, 
   },
   botaodeletar: {
     marginVertical: 5,

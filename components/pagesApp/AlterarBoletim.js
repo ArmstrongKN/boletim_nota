@@ -18,6 +18,7 @@ export default function AddBoletim({ navigation, route }) {
         })
         .catch(error => {
             console.error("Erro ao atualizar boletim: ", error);
+            Alert.alert("Erro", "Ocorreu um erro ao atualizar o boletim. Por favor, tente novamente.");
         });
     }
 
