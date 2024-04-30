@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import Firebase from '../Firebase';
+import Firebase, {addDoc, collection, db} from '../Firebase';
 
 export default function CadastroBoletim({ navigation }) {
     const [disciplina, setDisciplina] = useState('');
     const [nota, setNota] = useState('');
 
-    function addDisciplina() {
-        if (!disciplina.trim() || !nota.trim()) {
-            Alert.alert("Erro", "Por favor, preencha todos os campos.");
-            return;
-        }
+    // function addDisciplina() {
+    //     if (!disciplina.trim() || !nota.trim()) {
+    //         Alert.alert("Erro", "Por favor, preencha todos os campos.");
+    //         return;
+    //     }
 
-        Firebase.collection("boletim").add({
-            disciplina: disciplina,
-            nota: parseFloat(nota) // Converter Nota para número
-        })
-        .then(() => {
-            Alert.alert("Disciplina", "Disciplina cadastrada com sucesso!");
-            setDisciplina('');
-            setNota('');
-            navigation.navigate("Home");
-        })
-        .catch(error => {
-            console.error("Erro ao adicionar disciplina: ", error);
-            Alert.alert("Erro", "Ocorreu um erro ao cadastrar a disciplina. Por favor, tente novamente.");
-        });
+    //     Firebase.collection("boletim").add({
+    //         disciplina: disciplina,
+    //         nota: parseFloat(nota) // Converter Nota para número
+    //     })
+    //     .then(() => {
+    //         Alert.alert("Disciplina", "Disciplina cadastrada com sucesso!");
+    //         setDisciplina('');
+    //         setNota('');
+    //         navigation.navigate("Home");
+    //     })
+    //     .catch(error => {
+    //         console.error("Erro ao adicionar disciplina: ", error);
+    //         Alert.alert("Erro", "Ocorreu um erro ao cadastrar a disciplina. Por favor, tente novamente.");
+    //     });
+    // }
+
+    const addBoletim = async () => {
+        try{
+            const docRef = await addDoc(collection(db, 'boletim'), {
+                disciplina: disciplina,
+                nota: nota
+            });
+        } catch (error) {
+            console.log("erro ao inserir: ", error)
+        }
     }
 
     return (
@@ -50,7 +61,7 @@ export default function CadastroBoletim({ navigation }) {
 
             <TouchableOpacity
                 style={estilo.btnenviar}
-                onPress={() => addDisciplina()}
+                onPress={addBoletim}
             >
                 <Text style={estilo.btntxtenviar}>Enviar</Text>
             </TouchableOpacity>

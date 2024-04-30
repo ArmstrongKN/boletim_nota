@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, onSnapshot, deleteDoc, doc } from '../Firebase';
 import Firebase from '../Firebase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Home({ navigation }) {
-  const auth = getAuth();
   const [boletim, setBoletim] = useState([]);
   const firestore = getFirestore();
 
@@ -20,15 +18,15 @@ export default function Home({ navigation }) {
     }
   }
 
-  useEffect(() => {
-    const unsubscribeBoletim = onSnapshot(collection(firestore, 'boletim'), (querySnapshot) => {
-      const lista = [];
-      querySnapshot.forEach((doc) => { lista.push({ ...doc.data(), id: doc.id }); });
-      setBoletim(lista);
-    });
+//   useEffect(() => {
+//     const unsubscribeBoletim = onSnapshot(collection(firestore, 'boletim'), (querySnapshot) => {
+//       const lista = [];
+//       querySnapshot.forEach((doc) => { lista.push({ ...doc.data(), id: doc.id }); });
+//       setBoletim(lista);
+//     });
 
-    return () => { unsubscribeBoletim(); };
-  }, [firestore]);
+//     return () => { unsubscribeBoletim(); };
+//   }, [firestore]);
 
   return (
     <View style={estilo.container}>

@@ -1,21 +1,19 @@
 import { initializeApp, } from "firebase/app";
-import { initializeAuth, getReactNativePersistence  } from "firebase/auth";
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+// import { initializeAuth, getReactNativePersistence  } from "firebase/auth";
+import { getFirestore, collection, addDoc,  getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import 'firebase/firestore';
+// import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1OJ8pcB_6-bSVPNH0jvF5sOdlVQJArZ0",
-  authDomain: "diario-b0565.firebaseapp.com",
-  projectId: "diario-b0565",
-  storageBucket: "diario-b0565.appspot.com",
-  messagingSenderId: "902239358228",
-  appId: "1:902239358228:web:3b61c993fcac250c94c601"
-};
+    apiKey: "AIzaSyBy0gHIfJrLSj2v3wIpEGjQTn08amQYP9g",
+    authDomain: "boletim-80046.firebaseapp.com",
+    projectId: "boletim-80046",
+    storageBucket: "boletim-80046.appspot.com",
+    messagingSenderId: "186221526322",
+    appId: "1:186221526322:web:4d05663be0b114aa4fab2b"
+  };
 
 const app = initializeApp(firebaseConfig);
-
-initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-});
-
-export default firebaseConfig;
+const db = getFirestore(app);
+export { db, getFirestore, collection, addDoc,  getDocs, doc, updateDoc, deleteDoc };
