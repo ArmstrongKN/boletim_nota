@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import Firebase from '../Firebase';
+import Firebase, { addDoc, collection, db, updateDoc, doc } from '../Firebase';
+import { firestore } from "../Firebase";
 
 export default function AddBoletim({ navigation, route }) {
     const [disciplina, setDisciplina] = useState(route.params.disciplina);
     const [nota, setNota] = useState(route.params.nota);
     const id = route.params.id;
 
-    function AlterarBoletim(id, disciplina, nota) {
-        Firebase.collection("boletim").doc(id).update({
-            disciplina: disciplina,
-            nota: nota
-        })
-        .then(() => {
+    async function AlterarBoletim(id, disciplina, nota) {
+        try {
+            await updateDoc(doc(collection(db, "boletim"), id), {
+                disciplina: disciplina,
+                nota: nota
+            })
             Alert.alert("Aviso", "Boletim alterado com sucesso.");
-            navigation.navigate("Home");
-        })
-        .catch(error => {
+            navigation.navigate("Home")
+        }
+        catch(error) {
             console.error("Erro ao atualizar boletim: ", error);
             Alert.alert("Erro", "Ocorreu um erro ao atualizar o boletim. Por favor, tente novamente.");
-        });
+        }
     }
 
     return (
