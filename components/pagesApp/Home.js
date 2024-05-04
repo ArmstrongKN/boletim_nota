@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import Firebase from '../Firebase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
   }, [firestore]);
 
   return (
-    <View style={estilo.container}>
+    <ImageBackground source={require('../../assets/etec.png')} style={estilo.container}>
       <Text style={estilo.titulo}>Meu Boletim</Text>
       <FlatList
         data={boletim}
@@ -57,7 +57,7 @@ export default function Home({ navigation }) {
       <TouchableOpacity style={estilo.addbutton} onPress={() => navigation.navigate("CadastrarBoletim")} accessibilityLabel="Adicionar novo boletim">
         <MaterialCommunityIcons name="plus-circle-outline" size={30} color="green" />
       </TouchableOpacity>
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -66,6 +66,7 @@ const estilo = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    resizeMode: 'cover', // Isso fará com que a imagem de fundo cubra todo o container
   },
   titulo: {
     marginTop: 50,
@@ -105,3 +106,4 @@ const estilo = StyleSheet.create({
     padding: 10,
   }
 });
+
